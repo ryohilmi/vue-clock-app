@@ -7,7 +7,7 @@ import Clock from './components/Clock.vue';
 </template>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500&family=PT+Serif:wght@400;700&family=Poppins:wght@100;200;300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500&display=swap');
 
 * {
   margin: 0;
@@ -18,7 +18,7 @@ import Clock from './components/Clock.vue';
 html {
   background: rgb(15, 20, 30);
   color: white;
-  font-family: 'Poppins';
+  font-family: 'Roboto Mono';
 }
 
 .clock {
