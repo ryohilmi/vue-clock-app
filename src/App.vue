@@ -16,8 +16,8 @@ import Clock from './components/Clock.vue';
 }
 
 html {
-  background: rgb(15, 20, 30);
-  color: white;
+  background: rgb(248, 250, 251);
+  color: rgb(223, 223, 223);
   font-family: 'Roboto Mono';
 }
 

@@ -2,7 +2,11 @@
 export default {
   data() {
     return {
-      time: '19:00:00',
+      time: {
+        hours: '',
+        minute: '',
+        second: '',
+      },
       date: 'Senin, 12 September 2022',
       timer: null,
     };
@@ -15,11 +19,14 @@ export default {
         month: 'long',
         day: 'numeric',
       };
-      let timestamp = new Date();
+      let date = new Date();
 
-      this.time = timestamp.toLocaleTimeString('id-ID');
-      this.time = this.time.replaceAll('.', ':');
-      this.date = timestamp.toLocaleDateString('id-ID', options);
+      this.date = date.toLocaleDateString('id-ID', options);
+      this.time = {
+        hours: date.getHours().toString().padStart(2, '0'),
+        minutes: date.getMinutes().toString().padStart(2, '0'),
+        seconds: date.getSeconds().toString().padStart(2, '0'),
+      };
     },
   },
   mounted() {
@@ -35,7 +42,13 @@ export default {
 
 <template>
   <div class="clock">
-    <p class="time">{{ time }}</p>
+    <p class="time">
+      <span>{{ time.hours }}</span>
+      <span class="semicolon">:</span>
+      <span> {{ time.minutes }}</span>
+      <span class="semicolon">:</span>
+      <span>{{ time.seconds }}</span>
+    </p>
     <p class="date">{{ date }}</p>
   </div>
 </template>
@@ -50,11 +63,21 @@ export default {
     font-size: 5rem;
     font-weight: 500;
     font-variant-numeric: tabular-nums;
+    color: rgb(57, 92, 105);
+    text-align: center;
+    text-shadow: rgba(192, 192, 192, 0.5) 2px 2px 7px;
+
+    .semicolon {
+      font-size: 0.8em;
+      margin: 0 -5px;
+      padding: 0;
+      text-align: center;
+    }
   }
 
   .date {
-    font-weight: 300;
-    color: rgb(192, 192, 192);
+    font-weight: 400;
+    color: rgb(114, 114, 114);
   }
 }
 </style>
