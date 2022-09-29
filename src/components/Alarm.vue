@@ -4,14 +4,20 @@ import AlarmItem from "./AlarmItem.vue";
 export default {
   data() {
     return {
-      alarms: [
-        { hour: 7, minute: 0, isActive: false },
-        { hour: 7, minute: 0, isActive: true },
-      ],
+      alarms: [],
     };
   },
   components: {
     AlarmItem,
+  },
+  mounted() {
+    this.alarms = JSON.parse(localStorage.getItem("vue-alarm")) || this.alarms;
+  },
+  methods: {
+    toggleAlarm: function (id, isActive) {
+      this.alarms[id].isActive = isActive;
+      localStorage.setItem("vue-alarm", JSON.stringify(this.alarms));
+    },
   },
 };
 </script>
@@ -23,6 +29,7 @@ export default {
       :key="index"
       :alarmId="index"
       :alarm="alarm"
+      @toggle="toggleAlarm"
     />
   </div>
 </template>

@@ -7,8 +7,8 @@ export default {
     },
   },
   methods: {
-    log(e) {
-      console.log(e.target.checked);
+    toggleAlarm(e) {
+      this.$emit("toggle", this.alarmId, e.target.checked);
     },
   },
 };
@@ -21,7 +21,7 @@ export default {
       type="checkbox"
       name=""
       :id="alarmId"
-      @change="log($event)"
+      @change="toggleAlarm($event)"
       :checked="alarm.isActive"
     />
     <label :for="alarmId"></label>
@@ -61,10 +61,10 @@ label {
   display: block;
   border-radius: 100px;
   position: relative;
-  box-shadow: -8px -4px 8px 0px rgba(231, 231, 231, 0.2),
-    8px 4px 12px 0px rgba(84, 84, 85, 0.2),
-    4px 4px 4px 0px rgba(84, 84, 85, 0.2) inset,
-    -4px -4px 4px 0px rgba(231, 231, 231, 0.2) inset;
+  box-shadow: -4px -2px 4px 0px rgba(231, 231, 231, 0.1),
+    4px 2px 6px 0px rgba(84, 84, 85, 0.1),
+    2px 2px 2px 0px rgba(84, 84, 85, 0.1) inset,
+    -2px -2px 2px 0px rgba(231, 231, 231, 0.1) inset;
 }
 
 label:after {
@@ -78,6 +78,10 @@ label:after {
   border-radius: 50%;
   transition: 0.3s;
   border-radius: 15px;
+  box-shadow: -4px -2px 4px 0px rgba(231, 231, 231, 0.1),
+    4px 2px 6px 0px rgba(84, 84, 85, 0.1),
+    2px 2px 2px 0px rgba(84, 84, 85, 0.1) inset,
+    -2px -2px 2px 0px rgba(231, 231, 231, 0.1) inset;
 }
 
 input:checked + label {
