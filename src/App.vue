@@ -1,9 +1,11 @@
 <script setup>
 import Clock from './components/Clock.vue';
+import Alarm from './components/Alarm.vue'
 </script>
 
 <template>
   <Clock />
+  <Alarm />
 </template>
 
 <style>
