@@ -30,6 +30,7 @@ export default {
 
 <style scoped>
 .alarm-item {
+  cursor: pointer;
   background: white;
   width: 100%;
   background-color: rgb(248, 250, 251);
@@ -59,6 +60,7 @@ label {
   width: 60px;
   height: 30px;
   display: block;
+  background: rgb(235, 235, 235);
   border-radius: 100px;
   position: relative;
   box-shadow: -4px -2px 4px 0px rgba(231, 231, 231, 0.1),
@@ -80,8 +82,8 @@ label:after {
   border-radius: 15px;
   box-shadow: -4px -2px 4px 0px rgba(231, 231, 231, 0.1),
     4px 2px 6px 0px rgba(84, 84, 85, 0.1),
-    2px 2px 2px 0px rgba(84, 84, 85, 0.1) inset,
-    -2px -2px 2px 0px rgba(231, 231, 231, 0.1) inset;
+    2px 2px 2px 0px rgba(84, 84, 85, 0.2) inset,
+    -2px -2px 2px 0px rgba(231, 231, 231, 0.4) inset;
 }
 
 input:checked + label {
