@@ -10,6 +10,8 @@ export default {
       alarmSound: new Audio('alarm.mp3'),
       timer: null,
       isPlaying: false,
+      hasPlayed: false,
+      currentAlarm: null,
     };
   },
   components: {
@@ -43,9 +45,16 @@ export default {
       const hours = date.getHours();
       const minutes = date.getMinutes();
 
-      this.alarms.forEach((alarm) => {
-        if (alarm.hour === hours && alarm.minute === minutes) {
+      this.alarms.forEach((alarm, i) => {
+        if (
+          alarm.hour === hours &&
+          alarm.minute === minutes &&
+          this.hasPlayed === false &&
+          alarm.isActive
+        ) {
+          this.currentAlarm = i;
           this.isPlaying = true;
+          this.hasPlayed = true;
           this.$emit('playAlarm');
         }
       });
@@ -54,6 +63,12 @@ export default {
       if (this.isPlaying) {
         this.alarmSound.play();
       }
+    },
+    stopAlarm: function () {
+      this.isPlaying = false;
+      this.alarmSound.pause();
+      this.alarmSound.currentTime = 0;
+      this.$emit('stopAlarm');
     },
     addAlarm: function (hour, minute, name) {
       this.alarms.push({
@@ -90,6 +105,10 @@ export default {
       :alarm="alarm"
       @toggle="toggleAlarm"
     />
+    <div class="alarm-warning" :class="{ flex: isPlaying }">
+      <p>{{ alarms[currentAlarm]?.name || 'Alarm is Playing' }}</p>
+      <button @click="stopAlarm">STOP</button>
+    </div>
   </div>
 </template>
 
@@ -130,6 +149,46 @@ export default {
       &:hover {
         filter: brightness(85%);
       }
+    }
+  }
+}
+
+.flex {
+  display: flex !important;
+}
+
+.alarm-warning {
+  display: none;
+  position: fixed;
+  top: 50px;
+  background: white;
+  width: 200px;
+  height: 50px;
+  border-radius: 10px;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  padding: 2rem;
+  z-index: 11;
+  box-shadow: -4px -2px 4px 0px #ffffff,
+    4px 2px 6px 0px rgba(209, 217, 230, 0.9);
+
+  button {
+    cursor: pointer;
+    outline: none;
+    border: none;
+    width: 100px;
+    padding: 0.3rem;
+    margin: 0.3rem 0;
+    align-self: center;
+    background: rgb(101, 99, 253);
+    color: white;
+    border-radius: 12px;
+    box-shadow: -4px -2px 4px 0px rgba(231, 231, 231, 0.1),
+      4px 2px 6px 0px rgba(228, 228, 247, 0.1);
+
+    &:hover {
+      filter: brightness(85%);
     }
   }
 }

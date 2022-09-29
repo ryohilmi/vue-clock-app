@@ -14,7 +14,6 @@ export default {
   },
   methods: {
     playAlarm() {
-      console.log('PLAYENG');
       this.isPlaying = true;
     },
     stopAlarm() {
@@ -26,7 +25,7 @@ export default {
 
 <template>
   <Clock :isPlaying="isPlaying" />
-  <Alarm @playAlarm="playAlarm" />
+  <Alarm @playAlarm="playAlarm" @stopAlarm="stopAlarm" />
 </template>
 
 <style>
