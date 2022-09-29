@@ -24,6 +24,10 @@ export default {
           this.hours = this.alarm.hour;
           this.minute = this.alarm.minute;
           this.name = this.alarm.name;
+        } else {
+          this.hours = 0;
+          this.minute = 0;
+          this.name = '';
         }
       },
     },
@@ -64,7 +68,11 @@ export default {
       </div>
       <input type="text" v-model="name" name="alarm name" placeholder="Name" />
       <div class="buttons">
-        <button v-if="isEditing" class="delete" @click="deleteAlarm">
+        <button
+          :class="{ hidden: !isEditing }"
+          class="delete"
+          @click="deleteAlarm"
+        >
           Delete
         </button>
         <button @click="save">Save</button>
@@ -76,6 +84,10 @@ export default {
 <style lang="scss" scoped>
 .open {
   display: flex !important;
+}
+
+.hidden {
+  visibility: hidden;
 }
 
 .modal {

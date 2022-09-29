@@ -93,7 +93,7 @@ export default {
       this.isModalOpen = false;
     },
     openModal: function (alarm, index) {
-      if (alarm) {
+      if (index !== undefined) {
         this.selectedAlarm = alarm;
         this.selectedAlarm.index = index;
         this.isEditing = true;
