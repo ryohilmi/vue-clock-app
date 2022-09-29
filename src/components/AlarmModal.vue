@@ -15,13 +15,16 @@ export default {
     alarm: {
       type: Object,
     },
+    isEditing: Boolean,
   },
   watch: {
     isOpen: {
       handler() {
-        this.hours = this.alarm.hour;
-        this.minute = this.alarm.minute;
-        this.name = this.alarm.name;
+        if (this.isEditing) {
+          this.hours = this.alarm.hour;
+          this.minute = this.alarm.minute;
+          this.name = this.alarm.name;
+        }
       },
     },
   },
@@ -43,6 +46,10 @@ export default {
       }
       this.close();
     },
+    deleteAlarm: function () {
+      this.$emit('delete', this.alarm.index);
+      this.close();
+    },
   },
 };
 </script>
@@ -57,7 +64,9 @@ export default {
       </div>
       <input type="text" v-model="name" name="alarm name" placeholder="Name" />
       <div class="buttons">
-        <button @click="close">Cancel</button>
+        <button v-if="isEditing" class="delete" @click="deleteAlarm">
+          Delete
+        </button>
         <button @click="save">Save</button>
       </div>
     </div>
@@ -159,12 +168,12 @@ export default {
         &:hover {
           filter: brightness(85%);
         }
+      }
 
-        &:nth-child(1) {
-          background: none;
-          border: 1px solid rgb(214, 66, 7);
-          color: rgb(214, 66, 7);
-        }
+      .delete {
+        background: none;
+        border: 1px solid rgb(214, 66, 7);
+        color: rgb(214, 66, 7);
       }
     }
   }

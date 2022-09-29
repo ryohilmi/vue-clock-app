@@ -13,6 +13,7 @@ export default {
       hasPlayed: false,
       currentAlarm: null,
       selectedAlarm: null,
+      isEditing: false,
     };
   },
   components: {
@@ -82,6 +83,9 @@ export default {
     editAlarm: function (index, hour, minute, name) {
       this.alarms[index] = { hour, minute, name, isActive: true };
     },
+    removeAlarm: function (index) {
+      this.alarms.splice(index, 1);
+    },
     toggleAlarm: function (id, isActive) {
       this.alarms[id].isActive = isActive;
     },
@@ -89,8 +93,13 @@ export default {
       this.isModalOpen = false;
     },
     openModal: function (alarm, index) {
-      this.selectedAlarm = alarm;
-      this.selectedAlarm.index = index;
+      if (alarm) {
+        this.selectedAlarm = alarm;
+        this.selectedAlarm.index = index;
+        this.isEditing = true;
+      } else {
+        this.isEditing = false;
+      }
       this.isModalOpen = true;
     },
   },
@@ -108,7 +117,9 @@ export default {
       @close="closeModal"
       @add="addAlarm"
       @edit="editAlarm"
+      @delete="removeAlarm"
       :alarm="selectedAlarm"
+      :isEditing="isEditing"
     />
     <AlarmItem
       v-for="(alarm, index) in alarms"
@@ -116,7 +127,7 @@ export default {
       :alarmId="index"
       :alarm="alarm"
       @toggle="toggleAlarm"
-      @click="openModal(alarm, index)"
+      @click.self="openModal(alarm, index)"
     />
     <div class="alarm-warning" :class="{ flex: isPlaying }">
       <p>{{ alarms[currentAlarm]?.name || 'Alarm is Playing' }}</p>
