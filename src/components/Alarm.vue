@@ -7,6 +7,9 @@ export default {
     return {
       alarms: [],
       isModalOpen: false,
+      alarmSound: new Audio('alarm.mp3'),
+      timer: null,
+      isPlaying: false,
     };
   },
   components: {
@@ -15,6 +18,13 @@ export default {
   },
   mounted() {
     this.alarms = JSON.parse(localStorage.getItem('vue-alarm')) || this.alarms;
+    this.timer = setInterval(() => {
+      this.checkAlarms();
+    }, 1000);
+    document.addEventListener('mousemove', this.onMouseMove);
+  },
+  beforeDestroy() {
+    clearInterval(this.timer);
   },
   watch: {
     alarms: {
@@ -25,6 +35,26 @@ export default {
     },
   },
   methods: {
+    checkAlarms: function () {
+      let date = new Date();
+
+      this.date = date.toLocaleDateString('id-ID');
+
+      const hours = date.getHours();
+      const minutes = date.getMinutes();
+
+      this.alarms.forEach((alarm) => {
+        if (alarm.hour === hours && alarm.minute === minutes) {
+          this.isPlaying = true;
+          this.$emit('playAlarm');
+        }
+      });
+    },
+    onMouseMove: function () {
+      if (this.isPlaying) {
+        this.alarmSound.play();
+      }
+    },
     addAlarm: function (hour, minute, name) {
       this.alarms.push({
         hour,
@@ -47,7 +77,7 @@ export default {
 </script>
 
 <template>
-  <div class="alarm">
+  <div class="alarm" @mousemove="onMouseMove">
     <div class="header">
       <h1>Alarms</h1>
       <button @click="openModal">+</button>

@@ -1,11 +1,32 @@
-<script setup>
+<script>
 import Clock from './components/Clock.vue';
 import Alarm from './components/Alarm.vue';
+
+export default {
+  data() {
+    return {
+      isPlaying: false,
+    };
+  },
+  components: {
+    Clock,
+    Alarm,
+  },
+  methods: {
+    playAlarm() {
+      console.log('PLAYENG');
+      this.isPlaying = true;
+    },
+    stopAlarm() {
+      this.isPlaying = false;
+    },
+  },
+};
 </script>
 
 <template>
-  <Clock />
-  <Alarm />
+  <Clock :isPlaying="isPlaying" />
+  <Alarm @playAlarm="playAlarm" />
 </template>
 
 <style>
