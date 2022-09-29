@@ -8,7 +8,7 @@ export default {
   },
   methods: {
     toggleAlarm(e) {
-      this.$emit("toggle", this.alarmId, e.target.checked);
+      this.$emit('toggle', this.alarmId, e.target.checked);
     },
   },
 };
@@ -16,7 +16,7 @@ export default {
 
 <template>
   <div class="alarm-item">
-    <span>{{ alarm.hour }}:{{ alarm.minute.toString().padStart(2, "0") }}</span>
+    <span>{{ alarm.hour }}:{{ alarm.minute.toString().padStart(2, '0') }}</span>
     <input
       type="checkbox"
       name=""
@@ -70,7 +70,7 @@ label {
 }
 
 label:after {
-  content: "";
+  content: '';
   position: absolute;
   top: 0px;
   left: 0;
