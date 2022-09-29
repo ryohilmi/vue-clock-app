@@ -17,6 +17,10 @@ export default {
     close: function () {
       this.$emit('close');
     },
+    add: function () {
+      this.$emit('add', this.hours, this.minute, this.name);
+      this.close();
+    },
   },
 };
 </script>
@@ -32,7 +36,7 @@ export default {
       <input type="text" v-model="name" name="alarm name" placeholder="Name" />
       <div class="buttons">
         <button @click="close">Cancel</button>
-        <button>Save</button>
+        <button @click="add">Save</button>
       </div>
     </div>
   </div>

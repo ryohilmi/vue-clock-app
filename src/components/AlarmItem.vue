@@ -16,7 +16,12 @@ export default {
 
 <template>
   <div class="alarm-item">
-    <span>{{ alarm.hour }}:{{ alarm.minute.toString().padStart(2, '0') }}</span>
+    <div class="desc">
+      <span class="alarm-time"
+        >{{ alarm.hour }}:{{ alarm.minute.toString().padStart(2, '0') }}</span
+      >
+      <span class="alarm-name">{{ alarm.name }}</span>
+    </div>
     <input
       type="checkbox"
       name=""
@@ -28,7 +33,7 @@ export default {
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .alarm-item {
   cursor: pointer;
   background: white;
@@ -37,15 +42,26 @@ export default {
   box-shadow: -4px -2px 4px 0px #ffffff,
     4px 2px 6px 0px rgba(209, 217, 230, 0.9);
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin: 1rem auto;
+  margin: 1rem 0;
   padding: 1rem 3rem;
   border-radius: 20px;
   /* font-family: "Poppins"; */
+  justify-content: space-between;
   font-size: 2.2rem;
   font-weight: 500;
   color: rgb(57, 92, 105);
+
+  .desc {
+    align-self: center;
+
+    .alarm-name {
+      font-weight: 300;
+      font-size: 1.3rem;
+      align-self: center;
+      margin-left: 1rem;
+    }
+  }
 }
 
 input {

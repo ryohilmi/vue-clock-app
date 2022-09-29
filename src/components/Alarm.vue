@@ -6,7 +6,7 @@ export default {
   data() {
     return {
       alarms: [],
-      isModalOpen: true,
+      isModalOpen: false,
     };
   },
   components: {
@@ -16,10 +16,25 @@ export default {
   mounted() {
     this.alarms = JSON.parse(localStorage.getItem('vue-alarm')) || this.alarms;
   },
+  watch: {
+    alarms: {
+      handler() {
+        localStorage.setItem('vue-alarm', JSON.stringify(this.alarms));
+      },
+      deep: true,
+    },
+  },
   methods: {
+    addAlarm: function (hour, minute, name) {
+      this.alarms.push({
+        hour,
+        minute,
+        name,
+        isActive: true,
+      });
+    },
     toggleAlarm: function (id, isActive) {
       this.alarms[id].isActive = isActive;
-      localStorage.setItem('vue-alarm', JSON.stringify(this.alarms));
     },
     closeModal: function () {
       this.isModalOpen = false;
@@ -37,7 +52,7 @@ export default {
       <h1>Alarms</h1>
       <button @click="openModal">+</button>
     </div>
-    <AlarmModal :isOpen="isModalOpen" @close="closeModal" />
+    <AlarmModal :isOpen="isModalOpen" @close="closeModal" @add="addAlarm" />
     <AlarmItem
       v-for="(alarm, index) in alarms"
       :key="index"
