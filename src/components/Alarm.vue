@@ -1,5 +1,5 @@
 <script>
-import AlarmItem from "./AlarmItem.vue";
+import AlarmItem from './AlarmItem.vue';
 
 export default {
   data() {
@@ -11,12 +11,12 @@ export default {
     AlarmItem,
   },
   mounted() {
-    this.alarms = JSON.parse(localStorage.getItem("vue-alarm")) || this.alarms;
+    this.alarms = JSON.parse(localStorage.getItem('vue-alarm')) || this.alarms;
   },
   methods: {
     toggleAlarm: function (id, isActive) {
       this.alarms[id].isActive = isActive;
-      localStorage.setItem("vue-alarm", JSON.stringify(this.alarms));
+      localStorage.setItem('vue-alarm', JSON.stringify(this.alarms));
     },
   },
 };
@@ -24,6 +24,10 @@ export default {
 
 <template>
   <div class="alarm">
+    <div class="header">
+      <h1>Alarms</h1>
+      <button>+</button>
+    </div>
     <AlarmItem
       v-for="(alarm, index) in alarms"
       :key="index"
@@ -36,6 +40,7 @@ export default {
 
 <style lang="scss" scoped>
 .alarm {
+  font-family: 'Roboto';
   min-width: 300px;
   max-width: 50%;
   margin: 4rem auto;
@@ -43,5 +48,34 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin: 1rem auto;
+
+    h1 {
+      font-weight: 300;
+    }
+
+    button {
+      cursor: pointer;
+      outline: none;
+      border: none;
+      width: 40px;
+      height: 40px;
+      font-size: 1.5rem;
+      background: rgb(101, 99, 253);
+      color: white;
+      border-radius: 12px;
+      box-shadow: -4px -2px 4px 0px rgba(231, 231, 231, 0.1),
+        4px 2px 6px 0px rgba(228, 228, 247, 0.1);
+
+      &:hover {
+        filter: brightness(85%);
+      }
+    }
+  }
 }
 </style>

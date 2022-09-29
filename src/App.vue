@@ -1,6 +1,6 @@
 <script setup>
 import Clock from './components/Clock.vue';
-import Alarm from './components/Alarm.vue'
+import Alarm from './components/Alarm.vue';
 </script>
 
 <template>
@@ -10,6 +10,7 @@ import Alarm from './components/Alarm.vue'
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
 * {
   margin: 0;
@@ -19,7 +20,7 @@ import Alarm from './components/Alarm.vue'
 
 html {
   background: rgb(248, 250, 251);
-  color: rgb(223, 223, 223);
+  color: rgb(57, 92, 105);
   font-family: 'Roboto Mono';
 }
 

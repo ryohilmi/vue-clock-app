@@ -196,6 +196,7 @@ export default {
   }
 
   .date {
+    font-family: 'Roboto';
     font-weight: 400;
     color: rgb(114, 114, 114);
   }
