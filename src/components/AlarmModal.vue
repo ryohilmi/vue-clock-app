@@ -12,13 +12,35 @@ export default {
       type: Boolean,
       required: true,
     },
+    alarm: {
+      type: Object,
+    },
+  },
+  watch: {
+    isOpen: {
+      handler() {
+        this.hours = this.alarm.hour;
+        this.minute = this.alarm.minute;
+        this.name = this.alarm.name;
+      },
+    },
   },
   methods: {
     close: function () {
       this.$emit('close');
     },
-    add: function () {
-      this.$emit('add', this.hours, this.minute, this.name);
+    save: function () {
+      if (this.alarm.index !== undefined) {
+        this.$emit(
+          'edit',
+          this.alarm.index,
+          this.hours,
+          this.minute,
+          this.name
+        );
+      } else {
+        this.$emit('add', this.hours, this.minute, this.name);
+      }
       this.close();
     },
   },
@@ -36,7 +58,7 @@ export default {
       <input type="text" v-model="name" name="alarm name" placeholder="Name" />
       <div class="buttons">
         <button @click="close">Cancel</button>
-        <button @click="add">Save</button>
+        <button @click="save">Save</button>
       </div>
     </div>
   </div>
