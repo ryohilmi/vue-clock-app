@@ -235,7 +235,7 @@ export default {
 
       span {
         font-size: 5rem;
-        margin: 0 0.5rem;
+        margin: 1rem 1.5rem;
       }
     }
 

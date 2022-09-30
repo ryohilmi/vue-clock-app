@@ -22,14 +22,25 @@ export default {
       >
       <span class="alarm-name">{{ alarm.name }}</span>
     </div>
-    <input
-      type="checkbox"
-      name=""
-      :id="alarmId"
-      @change="toggleAlarm($event)"
-      :checked="alarm.isActive"
-    />
-    <label :for="alarmId"></label>
+    <div class="control">
+      <div class="days">
+        <p
+          v-for="(day, index) in alarm.days"
+          :key="index"
+          :class="['day', day.isEnabled ? 'active' : '']"
+        >
+          {{ day.label[0] }}
+        </p>
+      </div>
+      <input
+        type="checkbox"
+        name=""
+        :id="alarmId"
+        @change="toggleAlarm($event)"
+        :checked="alarm.isActive"
+      />
+      <label :for="alarmId"></label>
+    </div>
   </div>
 </template>
 
@@ -60,6 +71,37 @@ export default {
       font-size: 1.3rem;
       align-self: center;
       margin-left: 1rem;
+    }
+  }
+
+  .control {
+    display: flex;
+    align-items: center;
+
+    .days {
+      display: flex;
+      margin-top: 0.7rem;
+      margin-right: 1rem;
+      justify-content: center;
+
+      p {
+        font-size: 0.9rem;
+        margin-right: 0.2rem;
+        width: 1rem;
+        text-align: center;
+
+        &.active {
+          color: rgb(101, 99, 253);
+          font-weight: 600;
+
+          &::before {
+            content: '•';
+            position: relative;
+            top: -0.8rem;
+            left: 45%;
+          }
+        }
+      }
     }
   }
 }
