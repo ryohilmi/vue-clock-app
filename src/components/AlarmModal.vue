@@ -37,7 +37,7 @@ export default {
       this.$emit('close');
     },
     save: function () {
-      if (this.alarm.index !== undefined) {
+      if (this.isEditing) {
         this.$emit(
           'edit',
           this.alarm.index,
