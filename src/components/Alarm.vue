@@ -44,6 +44,7 @@ export default {
 
       this.date = date.toLocaleDateString('id-ID');
 
+      const day = date.getDay();
       const hours = date.getHours();
       const minutes = date.getMinutes();
 
@@ -52,6 +53,7 @@ export default {
           alarm.hour === hours &&
           alarm.minute === minutes &&
           this.hasPlayed === false &&
+          alarm.days[day].isEnabled &&
           alarm.isActive
         ) {
           this.currentAlarm = i;
@@ -72,16 +74,19 @@ export default {
       this.alarmSound.currentTime = 0;
       this.$emit('stopAlarm');
     },
-    addAlarm: function (hour, minute, name) {
+    addAlarm: function (hour, minute, name, days) {
+      console.log(days);
+
       this.alarms.push({
         hour,
         minute,
         name,
+        days,
         isActive: true,
       });
     },
-    editAlarm: function (index, hour, minute, name) {
-      this.alarms[index] = { hour, minute, name, isActive: true };
+    editAlarm: function (index, hour, minute, name, days) {
+      this.alarms[index] = { hour, minute, name, days, isActive: true };
     },
     removeAlarm: function (index) {
       this.alarms.splice(index, 1);
