@@ -86,7 +86,13 @@ export default {
       });
     },
     editAlarm: function (index, hour, minute, name, days) {
-      this.alarms[index] = { hour, minute, name, days, isActive: true };
+      this.alarms[index] = {
+        hour,
+        minute,
+        name,
+        days,
+        isActive: this.alarms[index].isActive,
+      };
     },
     removeAlarm: function (index) {
       this.alarms.splice(index, 1);
