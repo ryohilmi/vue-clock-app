@@ -10,7 +10,7 @@ export default {
       alarmSound: new Audio('alarm.mp3'),
       timer: null,
       isPlaying: false,
-      hasPlayed: false,
+      playTimeout: 0,
       currentAlarm: null,
       selectedAlarm: null,
       isEditing: false,
@@ -43,6 +43,7 @@ export default {
       let date = new Date();
 
       this.date = date.toLocaleDateString('id-ID');
+      this.playTimeout = this.playTimeout > 0 ? this.playTimeout - 1 : 0;
 
       const day = date.getDay();
       const hours = date.getHours();
@@ -52,13 +53,13 @@ export default {
         if (
           alarm.hour === hours &&
           alarm.minute === minutes &&
-          this.hasPlayed === false &&
+          this.playTimeout === 0 &&
           alarm.days[day].isEnabled &&
           alarm.isActive
         ) {
           this.currentAlarm = i;
           this.isPlaying = true;
-          this.hasPlayed = true;
+          this.playTimeout = 60;
           this.$emit('playAlarm');
         }
       });
