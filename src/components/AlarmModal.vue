@@ -5,6 +5,7 @@ export default {
       hours: '00',
       minute: '00',
       name: '',
+      song: 'horizon.mp3',
       days: [
         {
           label: 'Sun',
@@ -124,10 +125,11 @@ export default {
           this.hours,
           this.minute,
           this.name,
+          this.song,
           this.days
         );
       } else {
-        this.$emit('add', this.hours, this.minute, this.name, this.days);
+        this.$emit('add', this.hours, this.minute, this.name, this.song, this.days);
       }
       this.close();
     },
@@ -164,6 +166,10 @@ export default {
         </div>
       </div>
       <input type="text" v-model="name" name="alarm name" placeholder="Name" />
+      <select name="" id="" v-model="song">
+        <option value="horizon.mp3">Over the horizon</option>
+        <option value="beep.mp3">Beep</option>
+      </select>
       <div class="buttons">
         <button
           :class="{ hidden: !isEditing }"
@@ -291,6 +297,18 @@ export default {
       &:not(:placeholder-shown) {
         border-bottom: 2px solid rgb(101, 99, 253);
       }
+    }
+
+    select {
+      width: 65%;
+      font-family: 'Roboto';
+      outline: none;
+      border: none;
+      background: none;
+      border-bottom: 2px solid gray;
+      margin: 0.5rem auto;
+      color: rgb(57, 92, 105);
+      padding: 0.3rem 0;
     }
 
     .buttons {

@@ -7,8 +7,9 @@ export default {
     return {
       alarms: [],
       isModalOpen: false,
-      alarmSound: new Audio('alarm.mp3'),
+      alarmSound: new Audio('horizon.mp3'),
       timer: null,
+      isAudioPlaying: false,
       isPlaying: false,
       hasPlayed: false,
       minuteHasPassed: false,
@@ -66,16 +67,19 @@ export default {
         let isSnoozed = isTimeForAlarm;
         isSnoozed &= parseInt(alarm.minute) == minutes - alarm.snoozeCount;
 
-        if (isActive || isSnoozed) {
+        if ((isActive || isSnoozed) && !this.isPlaying) {
           this.currentAlarm = i;
           this.isPlaying = true;
+          this.isAudioPlaying = true;
           this.$emit('playAlarm');
         }
       });
     },
     onMouseMove: function () {
-      if (this.isPlaying) {
+      if (this.isAudioPlaying) {
+        this.alarmSound = new Audio(this.alarms[this.currentAlarm].song);
         this.alarmSound.play();
+        this.isAudioPlaying = false;
       }
     },
     stopAlarm: function () {
@@ -94,21 +98,23 @@ export default {
       this.hasPlayed = true;
       this.$emit('stopAlarm');
     },
-    addAlarm: function (hour, minute, name, days) {
+    addAlarm: function (hour, minute, name, song, days) {
       this.alarms.push({
         hour,
         minute,
         name,
+        song,
         days,
         isActive: true,
         snoozeCount: 0,
       });
     },
-    editAlarm: function (index, hour, minute, name, days) {
+    editAlarm: function (index, hour, minute, name, song, days) {
       this.alarms[index] = {
         hour,
         minute,
         name,
+        song,
         days,
         isActive: this.alarms[index].isActive,
         snoozeCount: this.alarms[index].snoozeCount,
