@@ -10,7 +10,8 @@ export default {
       alarmSound: new Audio('alarm.mp3'),
       timer: null,
       isPlaying: false,
-      playTimeout: 0,
+      hasPlayed: false,
+      minuteHasPassed: false,
       currentAlarm: null,
       selectedAlarm: null,
       isEditing: false,
@@ -41,25 +42,34 @@ export default {
   methods: {
     checkAlarms: function () {
       let date = new Date();
+      let oneSecondAgo = new Date(date.getTime() - 2 * 1000);
 
       this.date = date.toLocaleDateString('id-ID');
-      this.playTimeout = this.playTimeout > 0 ? this.playTimeout - 1 : 0;
 
       const day = date.getDay();
       const hours = date.getHours();
       const minutes = date.getMinutes();
 
+      if (minutes - oneSecondAgo.getMinutes() != 0) {
+        this.hasPlayed = false;
+      }
+
+      console.log(minutes, oneSecondAgo.getMinutes());
+
       this.alarms.forEach((alarm, i) => {
-        if (
-          alarm.hour === hours &&
-          alarm.minute === minutes &&
-          this.playTimeout === 0 &&
-          alarm.days[day].isEnabled &&
-          alarm.isActive
-        ) {
+        let isTimeForAlarm = parseInt(alarm.hour) == hours;
+        isTimeForAlarm &= alarm.days[day].isEnabled;
+        isTimeForAlarm &= !this.hasPlayed;
+        isTimeForAlarm &= alarm.isActive;
+
+        let isActive = isTimeForAlarm && parseInt(alarm.minute) == minutes;
+
+        let isSnoozed = isTimeForAlarm;
+        isSnoozed &= parseInt(alarm.minute) == minutes - alarm.snoozeCount;
+
+        if (isActive || isSnoozed) {
           this.currentAlarm = i;
           this.isPlaying = true;
-          this.playTimeout = 60;
           this.$emit('playAlarm');
         }
       });
@@ -73,17 +83,26 @@ export default {
       this.isPlaying = false;
       this.alarmSound.pause();
       this.alarmSound.currentTime = 0;
+      this.alarms[this.currentAlarm].snoozeCount = 0;
+      this.hasPlayed = true;
+      this.$emit('stopAlarm');
+    },
+    snoozeAlarm: function () {
+      this.isPlaying = false;
+      this.alarmSound.pause();
+      this.alarmSound.currentTime = 0;
+      this.alarms[this.currentAlarm].snoozeCount++;
+      this.hasPlayed = true;
       this.$emit('stopAlarm');
     },
     addAlarm: function (hour, minute, name, days) {
-      console.log(days);
-
       this.alarms.push({
         hour,
         minute,
         name,
         days,
         isActive: true,
+        snoozeCount: 0,
       });
     },
     editAlarm: function (index, hour, minute, name, days) {
@@ -93,6 +112,7 @@ export default {
         name,
         days,
         isActive: this.alarms[index].isActive,
+        snoozeCount: this.alarms[index].snoozeCount,
       };
     },
     removeAlarm: function (index) {
@@ -144,6 +164,7 @@ export default {
     <div class="alarm-warning" :class="{ flex: isPlaying }">
       <p>{{ alarms[currentAlarm]?.name || 'Alarm is Playing' }}</p>
       <button @click="stopAlarm">STOP</button>
+      <button @click="snoozeAlarm">SNOOZE</button>
     </div>
   </div>
 </template>
