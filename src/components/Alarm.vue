@@ -23,6 +23,7 @@ export default {
   },
   mounted() {
     this.alarms = JSON.parse(localStorage.getItem('vue-alarm')) || this.alarms;
+    this.alarms.forEach((alarm) => (alarm.snoozeCount = 0));
     this.timer = setInterval(() => {
       this.checkAlarms();
     }, 1000);
@@ -53,8 +54,6 @@ export default {
       if (minutes - oneSecondAgo.getMinutes() != 0) {
         this.hasPlayed = false;
       }
-
-      console.log(minutes, oneSecondAgo.getMinutes());
 
       this.alarms.forEach((alarm, i) => {
         let isTimeForAlarm = parseInt(alarm.hour) == hours;
